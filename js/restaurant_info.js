@@ -22,7 +22,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<your MAPBOX API KEY HERE>',
+          mapboxToken: 'pk.eyJ1Ijoic3J2aWtyYW0xMyIsImEiOiJjamlhbTIzenAxOHJzM2twZmYyM3RveHozIn0.qT1B02p-3OGRHbr9IHjDjQ',
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -114,7 +114,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     row.appendChild(day);
 
     const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
+    time.innerHTML = operatingHours[key].replace(",", "<br>");
     row.appendChild(time);
 
     hours.appendChild(row);
@@ -148,22 +148,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
-
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
-
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
-
-  const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
-
+  li.innerHTML = `<div class='review'><div class='review-head'>${review.name} <span>${review.date}</span></div><p class='rating'>${getRating(review.rating)}</p><p>${review.comments}</p></div>`;
   return li;
 }
 
@@ -176,7 +161,14 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }
-
+getRating = (rating) => {
+  let str = '';
+  for(let i = 1; i <= 5; i++) {
+    if(i <= rating) str += '★';
+    else str += '☆';
+  }
+  return str;
+}
 /**
  * Get a parameter by name from page URL.
  */

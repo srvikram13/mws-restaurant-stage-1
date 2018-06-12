@@ -152,6 +152,14 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}`);
   }
+  static smallImageUrlForRestaurant(restaurant) {
+    const arr = restaurant.photograph.split(".");
+    return (`/images/${arr[0]}-small.${arr[1]}`);
+  }
+  static bigImageUrlForRestaurant(restaurant) {
+    const arr = restaurant.photograph.split(".");
+    return (`/images/${arr[0]}-medium.${arr[1]}`);
+  }
 
   /**
    * Map marker for a restaurant.

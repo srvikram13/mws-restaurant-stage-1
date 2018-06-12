@@ -16,6 +16,10 @@ initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {      
+      const map = document.querySelector("#map-container");
+      console.log(map.offsetHeight, map.clientHeight, map.scrollHeight);
+      document.querySelector("#map").style.height = map.offsetHeight+"px";
+
       self.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
@@ -86,9 +90,12 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const picture = document.getElementById('restaurant-img');
+  picture.innerHTML = `<source media="(min-width: 600px)" srcset="${DBHelper.smallImageUrlForRestaurant(restaurant)}">
+    <source media="(max-width: 400px)" srcset="${DBHelper.smallImageUrlForRestaurant(restaurant)}">
+    <source media="(min-width: 401px) and (max-width: 599px)" srcset="${DBHelper.bigImageUrlForRestaurant(restaurant)}">
+    <img class="restaurant-img" src="${DBHelper.bigImageUrlForRestaurant(restaurant)}" alt="${restaurant.name}">`;
+
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

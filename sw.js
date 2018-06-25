@@ -2,16 +2,6 @@
 Original Source : https://googlechrome.github.io/samples/service-worker/basic/
 */
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-
-document.querySelector('#show').addEventListener('click', () => {
-  const iconUrl = document.querySelector('select').selectedOptions[0].value;
-  let imgElement = document.createElement('img');
-  imgElement.src = iconUrl;
-  document.querySelector('#container').appendChild(imgElement);
-});
 
 const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';
@@ -19,12 +9,22 @@ const RUNTIME = 'runtime';
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   'index.html',
-  'restaurant.html',
+  'restaurant.html?id=1',
+  'restaurant.html?id=2',
+  'restaurant.html?id=3',
+  'restaurant.html?id=4',
+  'restaurant.html?id=5',
+  'restaurant.html?id=6',
+  'restaurant.html?id=7',
+  'restaurant.html?id=8',
+  'restaurant.html?id=9',
+  'restaurant.html?id=10',
   './', // Alias for index.html
-  'styles.css',
+  'css/styles.css',
   'data/restaurants.json',
   'js/dbhelper.js',
   'js/main.js',
+  '//unpkg.com/leaflet@1.3.1/dist/leaflet.js',
   'js/restaurant_info.js',
   'images/1-medium.jpg',
   'images/1-small.jpg',
@@ -54,6 +54,7 @@ self.addEventListener('install', event => {
     caches.open(PRECACHE)
       .then(cache => cache.addAll(PRECACHE_URLS))
       .then(self.skipWaiting())
+      .catch(err => console.log("error installing sw", err))
   );
 });
 

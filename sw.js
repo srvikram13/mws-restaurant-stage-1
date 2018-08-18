@@ -25,6 +25,7 @@ const PRECACHE_URLS = [
   'js/dbhelper.js',
   'js/main.js',
   '//unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+  '//unpkg.com/leaflet@1.3.1/dist/leaflet.css',
   'js/restaurant_info.js',
   'images/1-medium.jpg',
   'images/1-small.jpg',
@@ -77,7 +78,7 @@ self.addEventListener('activate', event => {
 // from the network before returning it to the page.
 self.addEventListener('fetch', event => {
   // Skip cross-origin requests, like those for Google Analytics.
-  if (event.request.url.startsWith(self.location.origin)) {
+  //if (event.request.url.startsWith(self.location.origin)) {
     event.respondWith(
       caches.match(event.request).then(cachedResponse => {
         if (cachedResponse) {
@@ -94,5 +95,5 @@ self.addEventListener('fetch', event => {
         });
       })
     );
-  }
+  //}
 });

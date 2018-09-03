@@ -5,6 +5,7 @@ var newMap;
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
+  DBHelper.initDB();
   initMap();
 });
 
@@ -17,7 +18,6 @@ initMap = () => {
       console.error(error);
     } else {      
       const map = document.querySelector("#map-container");
-      console.log(map.offsetHeight, map.clientHeight, map.scrollHeight);
       document.querySelector("#map").style.height = map.offsetHeight+"px";
 
       self.newMap = L.map('map', {
@@ -68,7 +68,7 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+    DBHelper.fetchRestaurantById(parseInt(id), (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);

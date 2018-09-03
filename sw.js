@@ -9,23 +9,13 @@ const RUNTIME = 'runtime';
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   'index.html',
-  'restaurant.html?id=1',
-  'restaurant.html?id=2',
-  'restaurant.html?id=3',
-  'restaurant.html?id=4',
-  'restaurant.html?id=5',
-  'restaurant.html?id=6',
-  'restaurant.html?id=7',
-  'restaurant.html?id=8',
-  'restaurant.html?id=9',
-  'restaurant.html?id=10',
+  'restaurant.html',
   './', // Alias for index.html
   'css/styles.css',
-  'data/restaurants.json',
   'js/dbhelper.js',
   'js/main.js',
-  '//unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-  '//unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+  'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+  'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
   'js/restaurant_info.js',
   'images/1-medium.jpg',
   'images/1-small.jpg',
@@ -57,6 +47,10 @@ self.addEventListener('install', event => {
       .then(self.skipWaiting())
       .catch(err => console.log("error installing sw", err))
   );
+/*   event.registerForeignFetch({
+		scopes:['/'],
+		origins:['*'] // or simply '*' to allow all origins
+	}); */
 });
 
 // The activate handler takes care of cleaning up old caches.
@@ -79,12 +73,12 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // Skip cross-origin requests, like those for Google Analytics.
   //if (event.request.url.startsWith(self.location.origin)) {
+    console.log(event.request.url.split("?")[0])
     event.respondWith(
-      caches.match(event.request).then(cachedResponse => {
+      caches.match(event.request.url.split("?")[0]).then(cachedResponse => {
         if (cachedResponse) {
           return cachedResponse;
         }
-
         return caches.open(RUNTIME).then(cache => {
           return fetch(event.request).then(response => {
             // Put a copy of the response in the runtime cache.

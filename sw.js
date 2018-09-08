@@ -71,9 +71,10 @@ self.addEventListener('activate', event => {
 // If no response is found, it populates the runtime cache with the response
 // from the network before returning it to the page.
 self.addEventListener('fetch', event => {
+  
   // Skip cross-origin requests, like those for Google Analytics.
-  //if (event.request.url.startsWith(self.location.origin)) {
-    console.log(event.request.url.split("?")[0])
+  //  if (event.request.url.startsWith(self.location.origin)) {
+  if (event.request.method === 'GET') {
     event.respondWith(
       caches.match(event.request.url.split("?")[0]).then(cachedResponse => {
         if (cachedResponse) {
@@ -89,5 +90,5 @@ self.addEventListener('fetch', event => {
         });
       })
     );
-  //}
+  }
 });

@@ -226,6 +226,7 @@ h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
+  clear: both;
 }
 #restaurant-container, #reviews-container, #map-container {
   border-bottom: 1px solid #d9d9d9;
@@ -243,10 +244,25 @@ h1 a {
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
+  display: inline-block;
+}
+main a.button {
+  background-color: orange;
+  color: #fff;
+  display: block;
+  font-size: 0.8em;
+  margin-bottom: 15px;
+  padding: 8px 30px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  float: right;
 }
 #reviews-list {
   margin: 0;
   padding: 0;
+  clear: both;
 }
 #reviews-list li {
   /*background-color: #fff;
@@ -299,7 +315,31 @@ h1 a {
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
-
+#review-form-container {
+  display: none;
+  max-width: 400px;
+  margin: 0px auto;
+  position: fixed;
+  padding: 30px;
+  width: 100%;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: white;
+  border: 1px solid #efefef;
+  z-index: 1000;
+  height: 300px;
+}
+#review-form-container fieldset > * {
+  margin-bottom: 20px;
+}
+#review-form-container button[type='submit'] {
+  display: block;
+  width: 100%;
+  max-width: 120px;
+  margin: 0px auto;
+}
 @media screen and (max-width: 600px) {
   body {
     font-size: 18px;
@@ -317,6 +357,13 @@ h1 a {
   }
   #restaurants-list li {
     width: calc(100% - 40px);
+  }
+}
+@media screen and (max-width: 700px) {
+  #addToFav, #removeFromFav {
+    margin: 10px auto;
+    display: block;
+    float: none;
   }
 }
 @media screen and (min-width: 601px) {

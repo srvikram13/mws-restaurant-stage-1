@@ -75,26 +75,28 @@
   <!-- End footer -->
 
   <!-- Add Review form-->
-  <div id="review-form-container">
-  <form action="" method="POST" onsubmit="postReview();return false;">
-    <fieldset>
-      <legend>Add/Update Review</legend>
-      <label for="review-name">Enter Name</label>
-      <input type="text" name="review-name" id="review-name" placeholder="(max 30 characters)" maxlength="30" pattern="^[a-zA-Z][a-zA-Z0-9]{1,30}$" title="Alpha-numeric only" required aria-required="true"/>
-      <br/>
-      <label for="review-rating">Rating</label>
-      <span><input type="radio" name="review-rating" value="1" required aria-required="true"> 1</span>
-      <span><input type="radio" name="review-rating" value="2"> 2</span>
-      <span><input type="radio" name="review-rating" value="3"> 3</span>
-      <span><input type="radio" name="review-rating" value="4"> 4</span>
-      <span><input type="radio" name="review-rating" value="5"> 5<br>
-      <br/>
-      <label for="review-comments">Enter Comments</label>
-      <textarea id="review-comments" name="review-comments" maxlength="200" placeholder="(max 240 characters only)" required aria-required="true"></textarea>
-      <button type="submit" >Submit</button>
-      <button type="button" onclick="cancelReview();">Cancel</button>
-    </fieldset>
-  </form> 
+  <div id="review-form-container" role="dialog" aria-labelledby="reviewform" aria-modal="true" >
+    <form action="" method="POST" onsubmit="postReview();return false;">
+      <fieldset>
+        <legend id="reviewform">Add/Update Review</legend>
+        <label for="review-name">Enter Name</label>
+        <input type="text" name="review-name" id="review-name" placeholder="(max 30 characters)" maxlength="30" pattern="^[a-zA-Z][a-zA-Z0-9]{1,30}$" title="Alpha-numeric only" required aria-required="true"/>
+        <br/>
+        <label for="review-rating">Rating</label>
+        <span><input type="radio" name="review-rating" value="1" required aria-required="true"> 1</span>
+        <span><input type="radio" name="review-rating" value="2"> 2</span>
+        <span><input type="radio" name="review-rating" value="3"> 3</span>
+        <span><input type="radio" name="review-rating" value="4"> 4</span>
+        <span><input type="radio" name="review-rating" value="5"> 5<br>
+        <br/>
+        <label for="review-comments">Enter Comments</label>
+        <textarea id="review-comments" name="review-comments" maxlength="200" placeholder="(max 240 characters only)" required aria-required="true"></textarea>
+        <div class="button-container">
+          <button type="submit" >Submit</button>
+          <button type="button" onclick="cancelReview();">Cancel</button>
+        </div>
+      </fieldset>
+    </form> 
   </div>
 <!--   <label for="fader">Volume</label>
 <input type="range"

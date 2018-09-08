@@ -65,6 +65,7 @@ class DBHelper {
           tx.objectStore('restaurants').put(restaurant);
         }
         callback(null, restaurants);
+        DBHelper.resumeQueuedRequests();
       })
       .catch((error) => {
         callback(error, null);
@@ -95,6 +96,7 @@ class DBHelper {
             tx.objectStore('restaurants').put(restaurant);
             // return tx.complete;
             callback(null, restaurant);
+            DBHelper.resumeQueuedRequests();
         })
         .catch((error) => {
           callback(error, null);
@@ -125,6 +127,7 @@ class DBHelper {
               tx.objectStore('reviews').put(review);
             })
             // return tx.complete;
+            DBHelper.resumeQueuedRequests();
             callback(null, reviews);
         })
         .catch((error) => {
@@ -242,7 +245,11 @@ class DBHelper {
           tx.objectStore('reviews').put(review);
         });
         callback(null, review)
-      }).catch((error) => callback(error, null));
+        DBHelper.resumeQueuedRequests();
+      }).catch((error) => {
+        DBHelper.queueRequest(DBHelper.REVIEWS_URL, "POST", formdata);
+        callback(error, null)
+      });
   }
 
   /**
@@ -303,13 +310,41 @@ class DBHelper {
       .then((restaurant) => {
         if(!restaurant) {
           console.error("error");
+          return;
         }
         scope.dbPromise.then((db) => {
           const tx = db.transaction('restaurants', 'readwrite');
           tx.objectStore('restaurants').put(restaurant);
         })
         callback(null, restaurant);
-      }).catch((error) => callback(error, null));
+        DBHelper.resumeQueuedRequests();
+      }).catch((error) => {
+        callback(error, null);
+        DBHelper.queueRequest(url, "PUT");
+      });
+  }
+  static queueRequest(url, method, payload) {
+    let count = parseInt(localStorage.getItem("count"));
+    if(!count) {
+      count = 1;
+    }
+    count++;
+    localStorage.setItem("count", count);
+    localStorage.setItem(count, JSON.stringify({url: url, method: method, body: (payload ? payload : "") }));
+  }
+  static resumeQueuedRequests() {
+    //console.log("in resumeQueuedRequests");
+    if(localStorage.length) {
+      const target = JSON.parse(localStorage.getItem(localStorage.key(0)));
+      if(target && target.url && target.method && target.body) {
+        fetch(target.url, {method: target.method, body: target.body})
+          .then((response)=> response.json())
+          .then((response) => {
+            localStorage.removeItem(localStorage.key(0));
+            DBHelper.resumeQueuedRequests();
+          })
+      }
+    }
   }
 }
 

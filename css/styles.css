@@ -339,6 +339,12 @@ main a.button {
   width: 100%;
   max-width: 120px;
   margin: 0px auto;
+  margin-right: 10px;
+}
+#review-form-container div.button-container {
+  display: inline-flex;
+  float: right;
+  padding: 20px;
 }
 @media screen and (max-width: 600px) {
   body {
